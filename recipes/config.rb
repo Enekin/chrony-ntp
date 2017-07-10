@@ -14,5 +14,20 @@
 # limitations under the License.
 #
 
-include_recipe "#{cookbook_name}::package"
-include_recipe "#{cookbook_name}::config"
+# Deploy chrony configuration
+platform = get_platform_specific(node['platform'])
+header = "# Produced by Chef -- changes will be overwritten\n"
+content = node[cookbook_name]['config'].to_h.map do |hk, hv|
+  if hv.is_a?(Array)
+    hv = node[cookbook_name]['default'][hk] if hv.empty?
+    hv.map { |v| "#{hk} #{v}" }
+  else
+    "#{hk} #{hv}".strip
+  end
+end
+
+file platform['config_file'] do
+  content "#{header}\n#{content.join("\n")}"
+  mode '0644'
+  notifies :restart, "service[#{platform['service']}]"
+end

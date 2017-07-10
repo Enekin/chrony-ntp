@@ -14,5 +14,15 @@
 # limitations under the License.
 #
 
-include_recipe "#{cookbook_name}::package"
-include_recipe "#{cookbook_name}::config"
+def get_platform_specific(platform)
+  platform_specific = {}
+  case platform
+  when 'centos'
+    platform_specific['config_file'] = '/etc/chrony.conf'
+    platform_specific['service'] = 'chronyd'
+  when 'debian'
+    platform_specific['config_file'] = '/etc/chrony/chrony.conf'
+    platform_specific['service'] = 'chrony'
+  end
+  platform_specific
+end
