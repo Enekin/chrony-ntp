@@ -14,11 +14,9 @@
 # limitations under the License.
 #
 
-cookbook_name = 'chrony-ntp'
+# Install chrony package
+package_retries = node[cookbook_name]['package_retries']
 
-# Package to install depending on platform
-default[cookbook_name]['package'] = 'chrony'
-
-# Configure retries for the package resources, default = global default (0)
-# (mostly used for test purpose)
-default[cookbook_name]['package_retries'] = nil
+package node[cookbook_name]['package'] do
+  retries package_retries unless package_retries.nil?
+end

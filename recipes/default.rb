@@ -14,7 +14,4 @@
 # limitations under the License.
 #
 
-# Check if systemd is working
-execute "systemctl #{node[cookbook_name]['systemd_opts']}" do
-  retries 1
-end
+include_recipe "#{cookbook_name}::package"
