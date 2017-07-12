@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
-include_recipe "#{cookbook_name}::package"
-include_recipe "#{cookbook_name}::config"
-include_recipe "#{cookbook_name}::service"
+# Enable/Start service
+platform = get_platform_specific(node['platform'])
+service platform['service'] do
+  action %i[enable start]
+end
