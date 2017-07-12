@@ -50,3 +50,13 @@ platforms:
 suites:
   - name: chrony-ntp
     run_list:
+      - recipe[test-chrony-ntp::selinux]
+      - recipe[chrony-ntp]
+    attributes:
+      chrony-ntp:
+        config:
+          maxclockerror: '5'
+          manual: ''
+          server:
+           - 0.europe.pool.ntp.org
+           - 1.europe.pool.ntp.org

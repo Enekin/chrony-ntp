@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 
-require 'spec_helper'
-
-describe 'Systemd' do
-  it 'should be working fine' do
-    expect(command('systemctl').exit_status).to eq(0)
-  end
+if node['platform_family'] == 'debian'
+  execute 'fix strange stuff with selinux and apt' do
+    command <<-EOS
+      if mount | grep selinux; then mount -o remount,ro /sys/fs/selinux; fi
+      EOS
+    action :nothing
+  end.run_action(:run)
 end
