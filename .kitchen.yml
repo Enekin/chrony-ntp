@@ -15,8 +15,6 @@
 #
 ---
 # Customize Kitchen with some monkey patching:
-# - Suites scheduler
-#   <% load "#{File.dirname(__FILE__)}/test/kitchen_command.rb" %>
 # - Create kitchen network if missing
 #   <% net_test = '! docker network ls | grep "kitchen" >/dev/null 2>&1' %>
 #   <% net_create = 'docker network create --driver bridge kitchen' %>
@@ -26,10 +24,12 @@ driver:
   name: docker_cli
   volume: /sys/fs/cgroup:/sys/fs/cgroup:ro
   command: /sbin/init
-  network: kitchen
+  network: kitchen --cap-add SYS_TIME
   security_opt: seccomp=unconfined
   skip_preparation: true
   require_chef_omnibus: false
+  instance_host_name: true
+  instance_container_name: true
   build_pull: true
 
 transport:
@@ -43,22 +43,10 @@ platforms:
   - name: centos-7
     driver_config:
       image: sbernard/centos-systemd-kitchen
-  - name: arch
-    driver_config:
-      image: sbernard/arch-systemd-kitchen
   - name: debian-8
     driver_config:
       image: sbernard/debian-systemd-kitchen
 
 suites:
-# Generate different types of nodes
-<% { 'test' => 1 }.each do |name,n| %>
-  <% ("01".."#{n}").each do |i| %>
-  - name: <%= name %>-<%= i %>
-    driver:
-      instance_host_name: true
-      instance_container_name: true
+  - name: chrony-ntp
     run_list:
-      - recipe[<%= name %>-cookbook]
-  <% end %>
-<% end %>
