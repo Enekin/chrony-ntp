@@ -40,3 +40,25 @@ describe command('/usr/bin/chronyc activity') do
   its(:stdout) { should contain('200 OK') }
   its(:stdout) { should contain('2 sources online') }
 end
+
+describe service('chronyd-exporter.service') do
+  it { should be_enabled }
+end
+
+describe service('chronyd-exporter.timer') do
+  it { should be_enabled }
+end
+
+(1..15).each do |try|
+  msg = 'node_chronyd_sources_total{status=online} 2'
+  cmd = "grep '#{msg}' /opt/prometheus_metrics/chronyd"
+  result = `#{cmd} 2>&1`
+  break if result.include?(msg)
+  puts "Waiting for metrics chronyd …\
+        Try ##{try}/15, waiting 5s"
+  sleep(5)
+end
+
+describe file('/opt/prometheus_metrics/chronyd') do
+  it { should contain('node_chronyd_sources_total{status=online} 2') }
+end

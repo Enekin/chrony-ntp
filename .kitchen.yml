@@ -52,6 +52,7 @@ suites:
     run_list:
       - recipe[test-chrony-ntp::selinux]
       - recipe[chrony-ntp]
+      - recipe[chrony-ntp::exporter]
     attributes:
       chrony-ntp:
         config:
@@ -60,3 +61,6 @@ suites:
           server:
            - 0.europe.pool.ntp.org
            - 1.europe.pool.ntp.org
+        systemd_timer_unit:
+          Timer:
+            OnCalendar: '*:0/1'
