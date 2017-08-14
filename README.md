@@ -1,21 +1,19 @@
-Test Cookbook
-=============
+Chrony NTP Cookbook
+===================
 
 Description
 -----------
 
-Cookbook used to test Chef behaviors.
+**[Chrony](https://chrony.tuxfamily.org/)** is a versatile implementation
+of the Network Time Protocol (NTP). It can synchronize the system clock
+with NTP servers, reference clocks (e.g. GPS receiver), and manual input
+using wristwatch and keyboard. It can also operate as an NTPv4 (RFC 5905)
+server and peer to provide a time service to other computers in the network.
 
-It is used as a template to create new cookbooks as it includes a complete
-configuration to test it in kitchen with docker and multi-nodes. In this
-cookbook, multi-nodes are represented by different platform.
+This cookbook is designed to install and configure Chrony daemon.
 
-It is also used to test the following docker images which can run systemd
-without being privileged:
-
-- sbernard/centos-systemd-kitchen
-- sbernard/arch-systemd-kitchen
-- sbernard/debian-systemd-kitchen
+Optionnally, it can also configure an exporter script to expose Chrony
+metrics following [Prometheus format][1].
 
 Requirements
 ------------
@@ -26,10 +24,9 @@ Declared in [metadata.rb](metadata.rb) and in [Gemfile](Gemfile).
 
 ### Platforms
 
-A *systemd* managed distribution:
+A *systemd* managed distribution, tested on:
 
-- RHEL Family 7, tested on Centos
-- ArchLinux
+- RHEL Family 7 (tested on Centos)
 - Debian 8
 
 Usage
@@ -37,8 +34,14 @@ Usage
 
 ### Test
 
-This cookbook is fully tested through the installation of a working cluster in
-docker hosts. This uses kitchen, docker and some monkey-patching.
+This cookbook is fully tested through the installation of a NTP client in
+docker hosts. This uses kitchen and docker.
+
+If you run kitchen list, you will see 2 instances, each for a different
+operating system:
+
+- chrony-ntp-centos-7: installation of Chrony daemon and metrics exporter
+- chrony-ntp-debian-8: same but for debian 8
 
 For more information, see [.kitchen.yml](.kitchen.yml) and [test](test)
 directory.
@@ -47,7 +50,8 @@ Attributes
 ----------
 
 Configuration is done by overriding default attributes. All configuration keys
-have a default defined in [attributes/default.rb](attributes/default.rb).
+have a default defined in [attributes/default.rb](attributes/default.rb) and
+[attributes/exporter.rb](attributes/exporter.rb).
 Please read it to have a comprehensive view of what and how you can configure
 this cookbook behavior.
 
@@ -56,7 +60,24 @@ Recipes
 
 ### default
 
-Run systemctl to check if it works.
+Include `package`, `config`, `service` recipes.
+
+### package
+
+Install **Chrony** using package.
+
+### config
+
+Generate and deploy **Chrony** config: *chrony.conf*.
+
+### service
+
+Create Systemd unit for **Chrony** and make sure service is started.
+
+### exporter
+
+Install metrics exporter *chrony_exporter.sh* as a systemd timer unit.
+
 
 Resources/Providers
 -------------------
@@ -77,6 +98,7 @@ request.
 License and Author
 ------------------
 
+- Author:: Sylvain Arrambourg (<saye@sknss.net>)
 - Author:: Samuel Bernard (<samuel.bernard@gmail.com>)
 
 ```text
@@ -94,3 +116,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[1]: https://prometheus.io/docs/instrumenting/exposition_formats/
