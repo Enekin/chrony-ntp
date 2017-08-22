@@ -9,6 +9,6 @@ issues_url 'https://gitlab.com/chef-platform/chrony-ntp/issues'
 version '1.0.0'
 
 supports 'centos', '>= 7.3'
-supports 'debian', '>= 8'
+supports 'debian', '>= 8.0'
 
 chef_version '>= 12.19'
