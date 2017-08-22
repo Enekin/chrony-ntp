@@ -6,7 +6,7 @@ description 'Install and configure chrony daemon'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url 'https://gitlab.com/chef-platform/chrony-ntp'
 issues_url 'https://gitlab.com/chef-platform/chrony-ntp/issues'
-version '1.0.0'
+version '1.1.0'
 
 supports 'centos', '>= 7.3'
 supports 'debian', '>= 8.0'
