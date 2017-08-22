@@ -16,7 +16,7 @@
 
 cookbook_name = 'chrony-ntp'
 
-# Package to install depending on platform
+# Package to install
 default[cookbook_name]['package'] = 'chrony'
 
 # Chrony configuration
@@ -51,6 +51,9 @@ default[cookbook_name]['default'] = {
     '::1'
   ]
 }
+
+# If chrony service is restarted when config file changes
+default[cookbook_name]['auto_restart'] = true
 
 # Configure retries for the package resources, default = global default (0)
 # (mostly used for test purpose)

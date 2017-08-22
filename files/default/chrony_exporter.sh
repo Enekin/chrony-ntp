@@ -23,5 +23,3 @@ node_chronyd_sources_total{status=offline} ${sources_offline}
 node_chronyd_sources_total{status=burst_online} ${sources_burst_online}
 node_chronyd_sources_total{status=burst_offline} ${sources_burst_offline}
 EOF
-
-exit 0

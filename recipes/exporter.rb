@@ -30,7 +30,7 @@ end
 cookbook_file "#{node[cookbook_name]['exporter_dir']}/chrony_exporter.sh" do
   source 'chrony_exporter.sh'
   mode '0755'
-  action %i[create]
+  action :create
 end
 
 # Configure exporter systemd unit

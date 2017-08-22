@@ -26,8 +26,9 @@ content = node[cookbook_name]['config'].to_h.map do |hk, hv|
   end
 end
 
+auto_restart = node[cookbook_name]['auto_restart']
 file platform['config_file'] do
   content "#{header}\n#{content.join("\n")}"
   mode '0644'
-  notifies :restart, "service[#{platform['service']}]"
+  notifies :restart, "service[#{platform['service']}]" if auto_restart
 end
