@@ -1,4 +1,4 @@
-# Template chef 20170712
+# Template chef 20170731
 image: sbernard/arch-kitchen-docker
 
 before_script:
@@ -27,6 +27,7 @@ kitchen:
   tags:
     - docker
   before_script:
+    - bundle install
     - if [ ! -e /var/run/docker.sock ]; then DOCKER_DRIVER=vfs dockerd & fi
       # On shared runner running coreos, we need to add privileged in driver
       # for centos and debian images. This may change in the future
