@@ -17,11 +17,11 @@
 cookbook_name = 'chrony-ntp'
 
 # Where to put the exporter script
-default[cookbook_name]['exporter_dir'] = '/opt/prometheus_chrony'
+default[cookbook_name]['exporter_dir'] = '/opt/bin'
 exporter_file = "#{node[cookbook_name]['exporter_dir']}/chrony_exporter.sh"
 
 # Where to put the exported metrics
-default[cookbook_name]['metrics_dir'] = '/opt/prometheus_metrics'
+default[cookbook_name]['metrics_dir'] = '/opt/node_exporter/textfile_collector'
 metrics_file = "#{node[cookbook_name]['metrics_dir']}/chronyd.prom"
 
 # Systemd service unit
