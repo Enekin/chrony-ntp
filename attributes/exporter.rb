@@ -22,7 +22,7 @@ exporter_file = "#{node[cookbook_name]['exporter_dir']}/chrony_exporter.sh"
 
 # Where to put the exported metrics
 default[cookbook_name]['metrics_dir'] = '/opt/prometheus_metrics'
-metrics_file = "#{node[cookbook_name]['metrics_dir']}/chronyd"
+metrics_file = "#{node[cookbook_name]['metrics_dir']}/chronyd.prom"
 
 # Systemd service unit
 default[cookbook_name]['systemd_unit'] = {

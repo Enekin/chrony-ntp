@@ -50,8 +50,8 @@ describe service('chronyd-exporter.timer') do
 end
 
 (1..15).each do |try|
-  msg = 'node_chronyd_sources_total{status=online} 2'
-  cmd = "grep '#{msg}' /opt/prometheus_metrics/chronyd"
+  msg = 'node_chronyd_sources_total{status="online"} 2'
+  cmd = "grep '#{msg}' /opt/prometheus_metrics/chronyd.prom"
   result = `#{cmd} 2>&1`
   break if result.include?(msg)
   puts "Waiting for metrics chronyd …\
@@ -59,6 +59,6 @@ end
   sleep(5)
 end
 
-describe file('/opt/prometheus_metrics/chronyd') do
-  it { should contain('node_chronyd_sources_total{status=online} 2') }
+describe file('/opt/prometheus_metrics/chronyd.prom') do
+  it { should contain('node_chronyd_sources_total{status="online"} 2') }
 end

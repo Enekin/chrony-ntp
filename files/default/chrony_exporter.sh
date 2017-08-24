@@ -15,11 +15,11 @@ sources_burst_offline=\
 $(echo "${activity}" | grep "return to offline" | cut -d ' '  -f1)
 
 cat <<EOF
-TYPE node_chronyd_offset_seconds gauge
+# TYPE node_chronyd_offset_seconds gauge
 node_chronyd_offset_seconds ${last_offset}
-TYPE node_chronyd_sources_total gauge
-node_chronyd_sources_total{status=online} ${sources_online}
-node_chronyd_sources_total{status=offline} ${sources_offline}
-node_chronyd_sources_total{status=burst_online} ${sources_burst_online}
-node_chronyd_sources_total{status=burst_offline} ${sources_burst_offline}
+# TYPE node_chronyd_sources_total gauge
+node_chronyd_sources_total{status="online"} ${sources_online}
+node_chronyd_sources_total{status="offline"} ${sources_offline}
+node_chronyd_sources_total{status="burst_online"} ${sources_burst_online}
+node_chronyd_sources_total{status="burst_offline"} ${sources_burst_offline}
 EOF
