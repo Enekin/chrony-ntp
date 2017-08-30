@@ -59,6 +59,13 @@ end
   sleep(5)
 end
 
+msg = 'node_chronyd_sources_total{status="online"} 2'
 describe file('/opt/node_exporter/textfile_collector/chronyd.prom') do
-  it { should contain('node_chronyd_sources_total{status="online"} 2') }
+  it { should contain(msg) }
+end
+
+curl = 'http_proxy="" curl -s'
+url = 'http://localhost:9100/metrics'
+describe command("#{curl} #{url}") do
+  its(:stdout) { should contain(msg) }
 end

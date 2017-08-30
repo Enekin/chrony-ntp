@@ -50,9 +50,17 @@ suites:
   - name: chrony-ntp
     run_list:
       - recipe[test-chrony-ntp::selinux]
+      - recipe[prometheus-platform]
       - recipe[chrony-ntp]
       - recipe[chrony-ntp::exporter]
     attributes:
+      prometheus-platform:
+        components:
+          node_exporter:
+            install?: true
+            cli_opts:
+              collector.textfile.directory: |
+                /opt/node_exporter/textfile_collector
       chrony-ntp:
         config:
           maxclockerror: '5'
