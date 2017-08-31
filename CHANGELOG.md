@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.1.0
+-----
+
+Main:
+
+- fix(exporter): correct metrics file format and extension
+- refactor(exporter): set better default paths
+
+Tests:
+
+- add test to check metrics file format
+
 1.0.0
 -----
 
