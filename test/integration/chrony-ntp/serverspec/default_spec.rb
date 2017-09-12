@@ -51,7 +51,7 @@ end
 
 (1..15).each do |try|
   msg = 'node_chronyd_sources_total{status="online"} 2'
-  cmd = "grep '#{msg}' /opt/node_exporter/textfile_collector/chronyd.prom"
+  cmd = "grep '#{msg}' /var/opt/node_exporter/chronyd.prom"
   result = `#{cmd} 2>&1`
   break if result.include?(msg)
   puts "Waiting for metrics chronyd …\
@@ -60,7 +60,7 @@ end
 end
 
 msg = 'node_chronyd_sources_total{status="online"} 2'
-describe file('/opt/node_exporter/textfile_collector/chronyd.prom') do
+describe file('/var/opt/node_exporter/chronyd.prom') do
   it { should contain(msg) }
 end
 

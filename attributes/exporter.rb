@@ -22,8 +22,7 @@ exporter_file =
   "#{node[cookbook_name]['exporter']['install_dir']}/chrony_exporter.sh"
 
 # Where to put the exported metrics
-default[cookbook_name]['exporter']['metrics_dir'] =
-  '/opt/node_exporter/textfile_collector'
+default[cookbook_name]['exporter']['metrics_dir'] = '/var/opt/node_exporter'
 metrics_file = "#{node[cookbook_name]['exporter']['metrics_dir']}/chronyd.prom"
 
 # Exporter systemd service unit

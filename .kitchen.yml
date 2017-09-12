@@ -60,7 +60,7 @@ suites:
             install?: true
             cli_opts:
               collector.textfile.directory: |
-                /opt/node_exporter/textfile_collector
+                /var/opt/node_exporter
       chrony-ntp:
         config:
           maxclockerror: '5'
