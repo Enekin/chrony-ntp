@@ -14,20 +14,20 @@
 # limitations under the License.
 #
 
-# Create chrony exporter script directory
-directory node[cookbook_name]['exporter_dir'] do
-  recursive true
-  mode '0755'
+# Create chrony exporter script and metrics directory
+[
+  node[cookbook_name]['exporter']['install_dir'],
+  node[cookbook_name]['exporter']['metrics_dir']
+].uniq.each do |dir_path|
+  directory "chrony-ntp::#{dir_path}" do
+    path dir_path
+    recursive true
+    mode '0755'
+  end
 end
-
-# Create chrony metrics directory
-directory node[cookbook_name]['metrics_dir'] do
-  recursive true
-  mode '0755'
-end
-
 # Copy chrony exporter script
-cookbook_file "#{node[cookbook_name]['exporter_dir']}/chrony_exporter.sh" do
+file = "#{node[cookbook_name]['exporter']['install_dir']}/chrony_exporter.sh"
+cookbook_file file do
   source 'chrony_exporter.sh'
   mode '0755'
   action :create
@@ -39,7 +39,7 @@ systemd_unit 'chronyd-exporter.service' do
   active false
   masked false
   static false
-  content node[cookbook_name]['systemd_unit']
+  content node[cookbook_name]['exporter']['unit']
   triggers_reload true
   action %i[create enable]
 end
@@ -50,7 +50,7 @@ systemd_unit 'chronyd-exporter.timer' do
   active true
   masked false
   static false
-  content node[cookbook_name]['systemd_timer_unit']
+  content node[cookbook_name]['exporter']['timer_unit']
   triggers_reload true
   action %i[create enable start]
 end

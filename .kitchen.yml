@@ -68,6 +68,7 @@ suites:
           server:
            - 0.europe.pool.ntp.org
            - 1.europe.pool.ntp.org
-        systemd_timer_unit:
-          Timer:
-            OnCalendar: '*:0/1'
+        exporter:
+          timer_unit:
+            Timer:
+              OnCalendar: '*:0/1'

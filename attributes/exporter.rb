@@ -17,15 +17,17 @@
 cookbook_name = 'chrony-ntp'
 
 # Where to put the exporter script
-default[cookbook_name]['exporter_dir'] = '/opt/bin'
-exporter_file = "#{node[cookbook_name]['exporter_dir']}/chrony_exporter.sh"
+default[cookbook_name]['exporter']['install_dir'] = '/opt/bin'
+exporter_file =
+  "#{node[cookbook_name]['exporter']['install_dir']}/chrony_exporter.sh"
 
 # Where to put the exported metrics
-default[cookbook_name]['metrics_dir'] = '/opt/node_exporter/textfile_collector'
-metrics_file = "#{node[cookbook_name]['metrics_dir']}/chronyd.prom"
+default[cookbook_name]['exporter']['metrics_dir'] =
+  '/opt/node_exporter/textfile_collector'
+metrics_file = "#{node[cookbook_name]['exporter']['metrics_dir']}/chronyd.prom"
 
-# Systemd service unit
-default[cookbook_name]['systemd_unit'] = {
+# Exporter systemd service unit
+default[cookbook_name]['exporter']['unit'] = {
   'Unit' => {
     'Description' => 'Chrony exporter service',
     'After' => 'network.target'
@@ -36,8 +38,8 @@ default[cookbook_name]['systemd_unit'] = {
   }
 }
 
-# Systemd timer unit
-default[cookbook_name]['systemd_timer_unit'] = {
+# Exporter systemd timer unit
+default[cookbook_name]['exporter']['timer_unit'] = {
   'Unit' => {
     'Description' => 'Chrony exporter timer'
   },
