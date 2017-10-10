@@ -16,9 +16,9 @@
 
 if node['platform_family'] == 'debian'
   execute 'fix strange stuff with selinux and apt' do
-    command <<-EOS
+    command <<-BASH
       if mount | grep selinux; then mount -o remount,ro /sys/fs/selinux; fi
-      EOS
+    BASH
     action :nothing
   end.run_action(:run)
 end
