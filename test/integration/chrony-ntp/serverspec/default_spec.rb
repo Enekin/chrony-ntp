@@ -49,17 +49,16 @@ describe service('chronyd-exporter.timer') do
   it { should be_enabled }
 end
 
-(1..15).each do |try|
-  msg = 'node_chronyd_sources_total{status="online"} 2'
+msg = 'node_chronyd_sources_total{status="online"} 2'
+(1..20).each do |try|
   cmd = "grep '#{msg}' /var/opt/node_exporter/chronyd.prom"
   result = `#{cmd} 2>&1`
   break if result.include?(msg)
   puts "Waiting for metrics chronyd …\
-        Try ##{try}/15, waiting 5s"
+        Try ##{try}/20, waiting 5s"
   sleep(5)
 end
 
-msg = 'node_chronyd_sources_total{status="online"} 2'
 describe file('/var/opt/node_exporter/chronyd.prom') do
   it { should contain(msg) }
 end
