@@ -23,6 +23,9 @@ def get_platform_specific(platform)
   when 'debian'
     platform_specific['config_file'] = '/etc/chrony/chrony.conf'
     platform_specific['service'] = 'chrony'
+  when 'ubuntu'
+    platform_specific['config_file'] = '/etc/chrony/chrony.conf'
+    platform_specific['service'] = 'chrony'
   end
   platform_specific
 end

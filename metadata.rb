@@ -10,5 +10,6 @@ version '1.3.0'
 
 supports 'centos', '>= 7.3'
 supports 'debian', '>= 8.0'
+supports 'ubuntu', '>= 16.04'
 
 chef_version '>= 12.19'
